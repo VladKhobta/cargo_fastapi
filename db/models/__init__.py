@@ -1,0 +1,1 @@
+from .insurances import Insurance
