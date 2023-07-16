@@ -1,0 +1,34 @@
+version: "3.0"
+services:
+  db:
+    container_name: "db"
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=database
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    container_name: "web"
+    restart: always
+    environment:
+      - DATABASE_URL=postgres://root:admin@db:5432/database
+      - APP_PORT=8080
+      - RATE_APP_PORT=8888
+    command: >
+      sh -c
+        "uvicorn main:app --reload --host 0.0.0.0 --port $${APP_PORT} &
+        uvicorn rate_imitation:app --reload --host 0.0.0.0 --port $${RATE_APP_PORT}"
+    volumes:
+      - .:/usr/src/
+    ports:
+      - "8080:8080"
+      - "8888:8888"
+    depends_on:
+      - db

@@ -1,3 +1,6 @@
 fastapi
 tortoise-orm[asyncpg]
 uvicorn
+httpx
+pydantic-settings
+aerich
