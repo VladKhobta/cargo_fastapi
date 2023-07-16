@@ -81,5 +81,11 @@ def get_actual_rate(
     )
 
 
-app = FastAPI()
-app.include_router(main_router, prefix="/rate")
+app = FastAPI(
+    title="Rate Service Imitation"
+)
+app.include_router(
+    main_router,
+    prefix="/rate",
+    tags=["rates"]
+)

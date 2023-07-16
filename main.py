@@ -17,12 +17,15 @@ logging.config.fileConfig(
 logger = logging.getLogger(__name__)
 
 
-app = FastAPI()
+app = FastAPI(
+    title=settings.app_name
+)
 
 main_router = APIRouter()
 main_router.include_router(
     rates_router,
-    prefix="/rates"
+    prefix="/insurances",
+    tags=["insurances"]
 )
 app.include_router(main_router)
 
